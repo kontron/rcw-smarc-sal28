@@ -77,29 +77,34 @@ lanes. Please note that the protocols in (brackets) are optional features
 not specified in the SMARC specification. Additionally, variant 3 and 4
 always have QSGMII on the PCIe D lane.
 
+Due to a limitation of the LS1028A SoC, PCIe Gen3 cannot be used
+simultaneously with SATA. Therefore, if a RCW with SATA is programmed, PCIe
+will only negotiate to to PCIe Gen1 or Gen2.
+
 ### Variant 2: Dual TSN port module
 
-
-| Suffix | Description       |
-| ------ | ----------------- |
-| `11__` | PCIe x1 / PCIe x1 |
-| `22__` | PCIe x2           |
-| `1s__` | PCIe x1 / (SATA)  |
+| Suffix | Description        |
+| ------ | ------------------ |
+| `11__` | PCIe x1 / PCIe x1  |
+| `22__` | PCIe x2            |
+| `1s__` | PCIe x1¹ / (SATA)  |
 
 ### Variant 3: Single PHY module
 
-| Suffix | Description       |
-| ------ | ----------------- |
-| `11_q` | PCIe x1 / PCIe x1 |
-| `22_q` | PCIe x2           |
-| `1s_q` | PCIe x1 / (SATA)  |
+| Suffix | Description        |
+| ------ | ------------------ |
+| `11_q` | PCIe x1 / PCIe x1  |
+| `22_q` | PCIe x2            |
+| `1s_q` | PCIe x1¹ / (SATA)  |
 
 ### Variant 4: Dual PHY module
 
-| Suffix | Description       |
-| ------ | ----------------- |
-| `11_q` | PCIe x1 / PCIe x1 |
-| `22_q` | PCIe x2           |
-| `1s_q` | PCIe x1 / (SATA)  |
+| Suffix | Description        |
+| ------ | ------------------ |
+| `11_q` | PCIe x1 / PCIe x1  |
+| `22_q` | PCIe x2            |
+| `1s_q` | PCIe x1¹ / (SATA)  |
+
+¹Only PCIe Gen1/Gen2
 
 [1]: https://source.codeaurora.org/external/qoriq/qoriq-components/rcw/
