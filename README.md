@@ -25,6 +25,8 @@ In particular, the RCW
 * sets the boot location to the internal SRAM,
 * figures out the boot source by looking at the `rcw_src_cfg[3:0]` pins and
   copies the bootloader payload from the corresponding location.
+* if the boot source is I2C, the CPLD will be queried where the bootloader
+  payload will be loaded from.
 
 ## Building your own RCW
 
@@ -32,13 +34,25 @@ Although not supported by Kontron, you could build your own RCW by using
 the utilities and LS1028A templates available in the [upstream
 repository][1].
 
-## Bootloader payload locations
+## RCW and bootloader payload locations
 
-| RCW source | Bootloader location   | Notes         |
-| ---------- | --------------------- | ------------- |
-| I2C        | SPI flash @`21_0000h` | normal boot   |
-| SPI        | SPI flash @`1_0000h`  | failsafe boot |
-| SDHD card  | SDHC card @1MiB       | production    |
+| RCW source | RCW Location     | Bootloader location   | Notes             |
+| ---------- | ---------------- | --------------------- | ----------------- |
+| I2C        | I2C EEPROM @`0h` | see next table        | normal boot       |
+| SPI        | SPI flash @`0h`  | SPI flash @`1_0000h`  | failsafe boot     |
+| eMMC       | eMMC @4kiB       | eMMC @1MiB            | special eMMC boot |
+| SDHD card  | SDHC card @4kiB  | SDHC card @1MiB       | production        |
+
+## Bootloader payload locations when RCW source is I2C
+
+In the normal boot case, the bootloader payload can be loaded different
+places. By default, the payload is loaded from the SPI flash. The user can
+set another location by programming the NVM bits 15 and 14 inside the CPLD.
+
+| CPLD NVM bits   | Bootloader location         |
+| `2'b11`, `2b10` | FSPI flash CS#0 @`21_0000h` |
+| `2'b01`         | FSPI flash CS#1 @`1_0000h`  |
+| `2'b00`         | DSPI flash CS#0 @`1_0000h`  |
 
 ## Naming conventions
 
