@@ -1,0 +1,90 @@
+i2c read 4a 9.1 1 $loadaddr
+if test $? -eq 0; then
+	setexpr.b hw_variant *$loadaddr \& 0x3
+	setexpr hw_variant $hw_variant + 1
+	echo "||"
+	echo "|| Your hardware variant is: $hw_variant"
+	echo "|| Current RCW is: $rcw_filename"
+	echo "||"
+	echo "|| MAKE SURE YOU ARE USING A SUITABLE RCW FOR THIS VARIANT."
+	echo "||"
+else
+	echo "||"
+	echo "|| Could not read the hardware variant from CPLD!"
+	echo "||"
+fi
+
+echo "The following RCWs are available:
+%RCWLIST%
+"
+
+echo "Please note that backspace WILL NOT work. Although it is displayed correctly!"
+echo
+setenv max_selection %MAXSELECTION%
+askenv rcw_num "Which RCW should be installed? (1-$max_selection)"
+
+# we have to be very careful with numbers in u-boot. sometimes
+# numbers are interpreted as decimal, sometimes as hex. we
+# want to use the decimal representation for the menu.
+# therefore, we treat the given number as BCD an convert it
+# accordingly.
+
+# lets start with test. test interprets numbers in decimal
+# and only in decimal. because... why not.
+# this way we can also make sure, the given number is actually
+# a decimal number, eg. doesn't contain any other digits than 0-9
+if test $rcw_num -lt 1 -o $rcw_num -gt $max_selection; then
+	echo "Invalid selection. Aborting"
+	exit 1
+fi
+
+askenv sure "Installing RCW #$rcw_num. Are you sure? (y/N)"
+if test "$sure" != "y" -a "$sure" != "Y"; then
+	echo "Aborting."
+	exit 1
+fi
+
+# setexpr on the other hand uses only hexadecimal
+# interpretation. this is going to be fun!
+setexpr rcw_num_l $rcw_num \& 0xf
+setexpr rcw_num_h $rcw_num \& 0xf0
+setexpr rcw_num_h $rcw_num_h / 0x10
+setexpr rcw_num $rcw_num_h * 0xa
+setexpr rcw_num $rcw_num + $rcw_num_l
+
+# add 2 to the rcw number, so our script can have a
+# size of up to 4kb.
+setexpr rcw_num $rcw_num + 0x2
+
+# calculate the offset in SPI flash
+setexpr rcw_offset $rcw_num * 0x800
+setexpr rcw_offset $rcw_offset - 0x800
+setexpr rcw_offset $rcw_offset + 0x200000
+
+echo "Programming the RCW at offset $rcw_offset."
+
+sf probe 0
+if test $? -ne 0; then
+	echo "Probing flash failed. Aborting"
+	exit 1
+fi
+
+sf read $loadaddr $rcw_offset 0x800
+if test $? -ne 0; then
+	echo "Reading flash failed. Aborting"
+	exit 1
+fi
+
+echo "Updating RCW EEPROM. Please wait.."
+i2c write $loadaddr 50 0.2 0x800
+if test $? -ne 0; then
+	echo "Writing I2C EEPROM failed. Aborting."
+	echo
+	echo "YOU MIGHT HAVE TO RECOVER YOUR BOARD!"
+	echo
+	exit 1
+fi
+
+echo
+echo "Successfully written the new RCW. Please reset the board."
+echo
