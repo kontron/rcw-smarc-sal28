@@ -94,6 +94,9 @@ always have QSGMII on the PCIe D lane.
 Due to a limitation of the LS1028A SoC, PCIe Gen3 cannot be used
 simultaneously with SATA. Therefore, if a RCW with SATA is programmed, PCIe
 will only negotiate to to PCIe Gen1 or Gen2.
+If spread spectrum clock (SSC) is intended to use for PCIe, 
+the SGMII lanes will not work, because PCIe and SGMII use the same PLL and
+SGMII can not work with SSC.
 
 ### Variant 2: Dual TSN port module
 
