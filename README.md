@@ -77,14 +77,14 @@ Examples:
 The naming convention is `<PCIeA><PCIeB><PCIeC><PCIeD>`. Where `<PCIeN>` is
 one of the following protocols:
 
-| Character | Description       |
-| --------- | ----------------- |
-| `1`       | PCIe x1 lane      |
-| `2`       | PCIe x2 lane      |
-| `s`       | SATA lane         |
-| `g`       | SGMII lane        |
-| `q`       | QSGMII lane       |
-| `_`       | lane not avalable |
+| Character | Description        |
+| --------- | ------------------ |
+| `1`       | PCIe x1 lane       |
+| `2`       | PCIe x2 lane       |
+| `s`       | SATA lane          |
+| `g`       | SGMII lane         |
+| `q`       | QSGMII lane        |
+| `_`       | lane not available |
 
 All variants only supports different SerDes protocols on SMARC PCIe A/B
 lanes. Please note that the protocols in (brackets) are optional features
