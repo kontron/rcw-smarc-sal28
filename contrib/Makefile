@@ -22,7 +22,7 @@ update-rcw.cmd: update-rcw.cmd.tmpl list.txt max_selection.txt
 
 update-rcw.scr: update-rcw.cmd
 	@echo "Generating u-boot image of the update script.."
-	@$(MKIMAGE) -T script -d $^ $@
+	@$(MKIMAGE) -T script -d $^ $@ >/dev/null
 
 update-rcw.scr.pad: update-rcw.scr
 	@echo "Padding $(notdir $<)"
