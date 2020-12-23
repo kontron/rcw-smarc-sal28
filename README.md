@@ -86,12 +86,17 @@ one of the following protocols:
 | `g`       | SGMII lane to enetc (SGMII-T)   |
 | `x`       | SGMII lane to switch (SGMII-S)  |
 | `q`       | QSGMII lane to switch           |
+| `t`       | USXGMII lane to enetc           |
+| `u`       | USXGMII lane to switch          |
 | `_`       | lane not available              |
 
 All variants - except variant 1 - only supports different SerDes protocols
 on SMARC PCIe A/B lanes. Please note, that the protocols in (brackets) are
 optional features not specified in the SMARC specification. Additionally,
 variant 3 and 4 always have QSGMII on the PCIe D lane.
+
+NXP calls the USXGMII lane to the enetc SXGMII and the SXGMII lane to the
+switch QXGMII.
 
 Due to a limitation of the LS1028A SoC, PCIe Gen3 cannot be used
 simultaneously with SATA. Therefore, if a RCW with SATA is programmed, PCIe
