@@ -1,5 +1,8 @@
 # Changelog
 
+## v10
+ - Add network variant 1 RCWs
+
 ## v9
  - Fix I2C read access.
 

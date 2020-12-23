@@ -67,7 +67,7 @@ Examples:
 
 | Variant | Description         |
 | ------- | ------------------- |
-| `1`     | reserved            |
+| `1`     | 4 Lane              |
 | `2`     | Dual TSN port       |
 | `3`     | Single PHY w/ audio |
 | `4`     | Dual PHY w/o audio  |
@@ -77,23 +77,43 @@ Examples:
 The naming convention is `<PCIeA><PCIeB><PCIeC><PCIeD>`. Where `<PCIeN>` is
 one of the following protocols:
 
-| Character | Description        |
-| --------- | ------------------ |
-| `1`       | PCIe x1 lane       |
-| `2`       | PCIe x2 lane       |
-| `s`       | SATA lane          |
-| `g`       | SGMII lane         |
-| `q`       | QSGMII lane        |
-| `_`       | lane not available |
+| Character | Description                     |
+| --------- | ------------------------------- |
+| `1`       | PCIe x1 lane                    |
+| `2`       | PCIe x2 lane                    |
+| `4`       | PCIe x4 lane                    |
+| `s`       | SATA lane                       |
+| `g`       | SGMII lane to enetc (SGMII-T)   |
+| `x`       | SGMII lane to switch (SGMII-S)  |
+| `q`       | QSGMII lane to switch           |
+| `_`       | lane not available              |
 
-All variants only supports different SerDes protocols on SMARC PCIe A/B
-lanes. Please note that the protocols in (brackets) are optional features
-not specified in the SMARC specification. Additionally, variant 3 and 4
-always have QSGMII on the PCIe D lane.
+All variants - except variant 1 - only supports different SerDes protocols
+on SMARC PCIe A/B lanes. Please note, that the protocols in (brackets) are
+optional features not specified in the SMARC specification. Additionally,
+variant 3 and 4 always have QSGMII on the PCIe D lane.
 
 Due to a limitation of the LS1028A SoC, PCIe Gen3 cannot be used
 simultaneously with SATA. Therefore, if a RCW with SATA is programmed, PCIe
 will only negotiate to to PCIe Gen1 or Gen2.
+
+### Variant 1: 4 Lane module
+
+| Suffix | Description                                   |
+| ------ | --------------------------------------------- |
+| `11gq` | PCIe x1 / PCIe x1 / (SGMII-T) / (QSGMII)      |
+| `11xx` | PCIe x1 / PCIe x1 / (SGMII-S) / (SGMII-S)     |
+| `1sgq` | PCIe x1¹ / (SATA) / (SGMII-T) / (QSGMII)      |
+| `1sxx` | PCIe x1¹ / (SATA) / (SGMII-S) / (SGMII-S)     |
+| `221q` | PCIe x2 / PCIe x1 / (QSGMII)                  |
+| `2222` | PCIe x2 / PCIe x2                             |
+| `22gq` | PCIe x2 / (SGMII-T) / (QSGMII)                |
+| `22xx` | PCIe x2 / (SGMII-S) / (SGMII-S)               |
+| `4444` | (PCIe x4)²                                    |
+| `xxxx` | (SGMII-S) / (SGMII-S) / (SGMII-S) / (SGMII-S) |
+
+¹Only PCIe Gen1/Gen2
+²PCIe lanes are swapped and not comply with the SMARC specification
 
 ### Variant 2: Dual TSN port module
 
