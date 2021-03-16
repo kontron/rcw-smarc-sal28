@@ -1,5 +1,8 @@
 # Changelog
 
+## v11
+ - Enable SATA RX lane swap
+
 ## v10
  - Add network variant 1 RCWs
 
