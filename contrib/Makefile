@@ -12,12 +12,13 @@ update-rcw.img: update-rcw.scr.pad $(RCW_FILES_PADDED)
 	@echo "Concatenating final image.."
 	@cat $< $(RCW_FILES_PADDED) > $@
 
-update-rcw.cmd: update-rcw.cmd.tmpl list.txt max_selection.txt
+update-rcw.cmd: update-rcw.cmd.tmpl list.txt max_selection.txt ../CHANGELOG.md
 	@echo "Generating update script.."
 	@$(SED) \
 		-e '/%RCWLIST%/r list.txt' \
 		-e '/%RCWLIST%/d' \
 		-e "s/%MAXSELECTION%/$$(cat max_selection.txt)/" \
+		-e "s/%RCWVERSION%/$$(sed -ne 's/^## v\([0-9]*\)/\1/p' ../CHANGELOG.md | head -n1)/" \
 		$< > $@
 
 update-rcw.scr: update-rcw.cmd

@@ -1,3 +1,5 @@
+	echo "||"
+	echo "|| This will install RCW v%RCWVERSION%"
 i2c read 4a 9.1 1 $loadaddr
 if test $? -eq 0; then
 	setexpr.b hw_variant *$loadaddr \& 0x3
