@@ -2,6 +2,9 @@
 
 ## v11
  - Enable SATA RX lane swap
+ - Add workaround for A-010554 (Improve SATA hard drive detection)
+ - Add workaround for A-009531 (Wrong IDO bit value for PCIe completion
+   packets)
 
 ## v10
  - Add network variant 1 RCWs
