@@ -97,6 +97,19 @@ Due to a limitation of the LS1028A SoC, PCIe Gen3 cannot be used
 simultaneously with SATA. Therefore, if a RCW with SATA is programmed, PCIe
 will only negotiate to to PCIe Gen1 or Gen2.
 
+## Available Extensions
+
+| Character | Description                                    |
+| --------- | ---------------------------------------------- |
+| `s`       | Second CS for SPI0, disables USB power control |
+
+The second chip select for the SPI0 bus can be enabled, but requires a
+different hardware variant which is available on request. Using this also
+means that the USB power control circuit is disabled which means the USB
+device mode cannot be used.
+
+Individual RCWs with these deviations are available on request.
+
 ### Variant 1: 4 Lane module
 
 | Suffix | Description                                   |

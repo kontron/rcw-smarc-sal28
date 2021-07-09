@@ -1,5 +1,8 @@
 # Changelog
 
+## unrel
+ - Add special RCW `sl28-4-22_q-s.bin`
+
 ## v11
  - Enable SATA RX lane swap
  - Add workaround for A-010554 (Improve SATA hard drive detection)
