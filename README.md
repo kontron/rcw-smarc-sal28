@@ -50,6 +50,7 @@ places. By default, the payload is loaded from the SPI flash. The user can
 set another location by programming the NVM bits 15 and 14 inside the CPLD.
 
 | CPLD NVM bits   | Bootloader location         |
+| --------------- | --------------------------- |
 | `2'b11`, `2b10` | FSPI flash CS#0 @`21_0000h` |
 | `2'b01`         | FSPI flash CS#1 @`1_0000h`  |
 | `2'b00`         | DSPI flash CS#0 @`1_0000h`  |
